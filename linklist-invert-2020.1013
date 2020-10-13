@@ -1,0 +1,108 @@
+#include <iostream>
+//不带头结点 第1题 
+using namespace std;
+
+template <class T>
+class LinkNode
+{
+	public:
+		T data;
+		LinkNode<T>* link;
+	LinkNode()
+	{
+		data=0;
+		link=NULL; 
+	}
+	LinkNode(const T& el)
+	{
+		data=el;
+		link=NULL;
+	}
+};
+
+template <class T>
+class LinkList {
+private:
+    LinkNode<T>*head, *tail; //表头和表尾指针
+public:
+    LinkList()
+    {
+        head = tail = NULL;
+    }
+    /*
+    ~LinkList()
+    {
+    }
+    */
+    void createlist(int n);//创建单链表 
+    void listinvert();//链表倒置
+	void printlist();//打印链表 
+};
+
+template<class T>
+void LinkList<T>::createlist(int n)
+{
+	LinkNode<T>* p;
+	LinkNode<T>* q;
+	if(head==NULL&&n!=0){
+		head=new LinkNode<T>;
+		tail=head;		
+		q=head;
+		cin>>q->data;
+	}
+	for(int i=0;i<n-1;i++){
+		p=new LinkNode<T>;
+		cin>>p->data;
+		q->link=p;
+		p->link=NULL;
+		tail=p;
+		q=q->link;
+	}
+}
+
+template<class T>
+void LinkList<T>::listinvert()
+{
+	LinkNode<T>* p;
+	LinkNode<T>* q;
+	LinkNode<T>* r;
+	p=head;
+	q=r=head->link;
+	while(r!=NULL)//以头做尾，不断用结点指向 
+	{
+		r=r->link;
+		q->link=p;
+		p=q;
+		q=r;
+	}
+	p=head;
+	head=tail;
+	tail=p;
+	tail->link=NULL;
+}
+
+template <class T>
+void LinkList<T>::printlist()
+{
+    LinkNode<T>* p = head;
+    while (p != NULL) {
+        cout << p->data << " ";
+        p = p->link;
+    }
+    cout << endl;
+}
+
+int main()
+{
+	int n;
+	LinkList<int> L;
+	cout<<"输入创建链表的长度：";
+	cin>>n;
+	cout<<"依次输入链表数据"<<endl;
+	L.createlist(n);
+	cout<<"输入的链表数据依次是：";
+	L.printlist();
+	cout<<"倒置后为："; 
+	L.listinvert();
+	L.printlist();
+}
